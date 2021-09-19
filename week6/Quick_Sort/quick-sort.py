@@ -114,47 +114,12 @@ def partition(a_list, start, end):
 
     return high
 
-#endregion
-
-#print("Quick Sort:")
-
-#myList = [54,26,93,17,77,31]
-
-#myList = [x for x in range(1000)]
-#random.shuffle(myList)
-
-#print(myList)
-
-#start_time = time.time()
-#quick_sort_partitionFirst(myList,0,len(myList)-1)
-#end_time = time.time()
-
-#print()
-#print("Sorted Listed: ")
-#print(myList)   
-
-#print(f"The execution time for Quick Sort Partition First is: {end_time-start_time}")
-
-# ------------------------------------------
-
-#myList = [x for x in range(1000)]
-#random.shuffle(myList)
-
-#start_time = time.time()
-#quick_sort_partitionSecond(myList,0,len(myList)-1)
-#end_time = time.time()
-
-#print(f"The execution time for Quick Sort Partition Second is: {end_time-start_time}")
-
-# ------------------------------------------
-
-#myList = [x for x in range(1000)]
-#random.shuffle(myList)
-
+#List to be sorted
 myList = [54,26,93,17,77,31]
 
 start_time = time.time()
 quick_sort_partitionLast(myList,0,len(myList)-1)
 end_time = time.time()
 
-print(f"The execution time for Quick Sort Partition Last is: {end_time-start_time}")
+#It takes the end time minus the start time to get execution time
+print(f"The execution time is: {end_time-start_time}")
