@@ -1,8 +1,6 @@
 from queue import Queue
 import random
 
-# Song Class
-#region
 class Song():
     def __init__(self,title,artist):
         self.title = title
@@ -28,10 +26,7 @@ class Song():
         
     def __gt__(self, other):
         return ((self.title, self.artist) < (other.title, other.artist))
-#endregion
 
-# Queue Class
-#region
 class Queue:
     def __init__(self, current_song_index=0, currently_playing=False):
         self.items = []
@@ -54,7 +49,6 @@ class Queue:
         return len(self.items)
 
     def play(self, song_index):
-
         self.current_song_index = song_index
         
         self.set_currently_playing(True)
@@ -66,43 +60,49 @@ class Queue:
     def show_play_list(self):
         num = 1
 
-        print("\nSong list:\n")
+        print("\nSong List:\n")
 
         for item in self.items:
             print(str(num) + '. ' + str(item))
             num += 1
 
     def show_current_song(self):
-        print("\nCurrently playing:")
+        if self.curently_playing:
+            print("\nCurrently Playing:")
 
-        print(self.items[self.current_song_index])
+            print(self.items[self.current_song_index])
+        else:
+            print('\nNothing is Playing!')
 
     def next(self):
-        
-        print('Currently Playing: ', self.curently_playing)
-        
-        playlist = len(self.items) - 1
+        if self.curently_playing:
+            playlist_length = len(self.items) - 1
 
-        if self.current_song_index == playlist:
-            next_song = 0
+            if self.current_song_index == playlist_length:
+                next_song = 0
+            else:
+                next_song = self.current_song_index + 1
+
+            print("\nSkipping....")
+
+            self.play(next_song)
         else:
-            next_song = self.current_song_index + 1
-
-        print("\nSkipping....")
-
-        self.play(next_song)
+            print('\nNothing is Playing!')
 
     def prev(self):
-        playlist = len(self.items) - 1
+        if self.curently_playing:
+            playlist_length = len(self.items) - 1
+            
+            if self.current_song_index == 0:
+                prev_song = playlist_length
+            else:
+                prev_song = self.current_song_index - 1
 
-        if self.current_song_index == playlist:
-            prev_song = 0
+            print("\nReplaying....")
+            
+            self.play(prev_song)
         else:
-            prev_song = self.current_song_index - 1
-
-        print("\nReplaying....")
-
-        self.play(prev_song)
+            print('\nNothing is Playing!')
 
     def removeSong(self, title):
         song_index = 0
@@ -118,7 +118,6 @@ class Queue:
         list_length = self.size()
         
         for i in range(list_length):
-            
             # pop off the first element and append it to the end of the list
             first_number = self.items.pop(0)
             self.items.append(first_number)
@@ -130,10 +129,7 @@ class Queue:
             list_element = self.items.pop(random_num)
             self.items.append(list_element)
 
-#endregion
-
-# Menu 
-#region 
+# Main Menu 
 def menu():
     print('\n')
     print(20 * "-" , "MENU" , 20 * "-")
@@ -148,68 +144,60 @@ def menu():
     print("0. Exit")
     print(47 * "-")
     print('\n')
-#endregion
     
 media_player = Queue()
 
-# Default Playlist
-media_player.add_song(Song('The Walk', 'Mayer Hawthorne'))
-media_player.add_song(Song('What Lovers Do', 'Maroon 5'))
-media_player.add_song(Song('Heartbreaker', 'Mariah Carey'))
-media_player.add_song(Song('24K Magic', 'Bruno Mars'))
-media_player.add_song(Song('Wifey', 'Next'))
-media_player.add_song(Song('Rockit', 'Herbie Hancock'))
-media_player.add_song(Song('Dress You Up', 'Madonna'))
-media_player.add_song(Song('Midas Touch', 'Midnight Star'))
+# main list
+media_player.add_song(Song('Way 2 Sexy', 'Drake'))
+media_player.add_song(Song('Stay', 'Jack Harlow'))
+media_player.add_song(Song('Good 4 U', 'Ava Max'))
+media_player.add_song(Song('Bad Habits', 'Sam Smith'))
+media_player.add_song(Song('Kiss Me More', 'Doja Cat'))
+media_player.add_song(Song('Call Me By Your Name', 'Lil Nas X'))
+media_player.add_song(Song('Industry Baby', 'Lil Nas X'))
+media_player.add_song(Song('Dont Go Yet', 'Camila Cabello'))
+media_player.add_song(Song('traitor', 'Olivia Rodrigo'))
 
 # Media Player
-#region
 while True:
     menu()
     choice = int(input())
 
     if choice == 1:
-        # Add code to prompt user for Song Title and Artist Name
+        # Ask user to input Songs Title and Artist Name
         artist = input('Enter the Song Artist: ')
-        title = input('Enter Song title: ')
+        title = input('Enter Song Title: ')
 
-        # Add song to playlist
+        # Add song to the playlist
         song = Song(title=title, artist=artist)
         media_player.add_song(song)
         
         print("New Song: " + song.title + " Added to Playlist")
         
     elif choice == 2:
-    
-        # Prompt user for Song Title 
-        title = input('Enter the song title to be removed: ')
+        # Ask user to enter for Song Title 
+        title = input('Enter the Song Title to be Removed: ')
         
-        # remove song from playlist
+        # Remove the user song input from playlist
         media_player.removeSong(title)
         
         print("Song: " + title + " Removed from Playlist")
 
     elif choice == 3:
-        # Play the playlist from the beginning
-        # Display song name that is currently playing
-
+        # Play the playlist also Display song name that is currently playing
         media_player.play(0)
         
     elif choice == 4:
         # Skip to the next song on the playlist
-        # Display song name that is now playing
-
         media_player.next()
         
     elif choice == 5:
-        # Go back to the previous song on the playlist
-        # Display song name that is now playing
+        # Go back to previous song
 
         media_player.prev()
 
     elif choice == 6:
-        # Randomly shuffle the playlist and play the first song
-        # Display song name that is now playing
+        # shuffle the playlist and play the first song
 
         media_player.shuffle()
 
@@ -220,17 +208,14 @@ while True:
         media_player.play(0)
 
     elif choice == 7:
-
-        # Display the song name and artist of the currently playing song
+        # will show the song name and artist of the currently playing song
         media_player.show_current_song()
 
     elif choice == 8:
-
-        # Show the current song list order
+        # display the current song list order
         media_player.show_play_list()
 
     elif choice == 0:
 
         print("Goodbye.")
         break
-#endregion
